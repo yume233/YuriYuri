@@ -1,42 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import Typed from 'react-typed'
-import { useUrlArr, useUpdateUrlArr } from 'state/status/hooks'
+import bg from 'assets/image/bg.png'
 export default function App() {
 	const DATE = new Date().getFullYear()
 	const [version, setVersion] = useState<string>('Loading...')
-	const [text, setText] = useState<string>('')
-	// const urlArr = useUrlArr()
-	// const UpdateUrlArr = useUpdateUrlArr()
+	const node = useRef<HTMLElement>(null) as any
 
-	// ;(() => {
-	// 	UpdateUrlArr('bot.biudi.cn')
-	// 	console.log(urlArr)
-	// })()
+	useEffect(() => {
+		// ;(async () => {
+		// 	await axios
+		// 		.get('https:/domain.com/api/version')
+		// 		.then(res => {
+		// 			setVersion(res.data.minVer)
+		// 		})
+		// 		.catch(err => {
+		// 			setVersion('获取不到版本')
+		// 		})
+		// })()
+		setVersion('0.1.0-f17e959')
+	}, [node])
 
-	const show = async () => {
-		const content = 'bot.biudi.cn'
-		let i = 0
-		const action = setInterval(() => {
-			let str = content.substr(0, i)
-			let txt = str
-			i++
-			if (i > content.length) clearInterval(action)
-			setText(txt)
-		}, 400)
-	}
-
-	;(async () => {
-		await axios
-			.get('https:/bot.biudi.cn/version')
-			.then(res => {
-				setVersion(res.data.minVer)
-			})
-			.catch(err => {
-				setVersion('获取不到版本')
-			})
-	})()
 	return (
 		<Main>
 			<Container>
@@ -45,23 +30,27 @@ export default function App() {
 					<p>Working!</p>
 				</Status>
 				<Info>
-					https://
-					<Typed strings={['bot.biudi.cn']} typeSpeed={200}></Typed>
-					{/* {text}
+					<Ver>
+						<span ref={node}>
+							{version === '获取不到版本' ? 'Error:' : 'Ver:'}
+						</span>
+						&nbsp;<p>{version}</p>
+					</Ver>
+					<div>
+						https://
+						<Typed strings={['test.domain.cn']} typeSpeed={200}></Typed>
+						{/* {text}
 					<Cursor>_</Cursor> */}
-					{/* {urlArr.map(item => {
+						{/* {urlArr.map(item => {
 						let url: string = ''
 						url += item
 						return url
 					})} */}
-					<Ver>
-						<span>{version === '获取不到版本' ? 'Error:' : 'Ver:'}</span>
-						&nbsp;<p>{version}</p>
-					</Ver>
+					</div>
+
 					<ICP>
-						琼ICP备
-						<a href='https://beian.miit.gov.cn'>2021000434</a>
-						号-5
+						萌ICP备
+						<a href='https://beian.miit.gov.cn'>20220912</a>号
 					</ICP>
 				</Info>
 			</Container>
@@ -103,6 +92,7 @@ const Status = styled.div`
 	}
 `
 const ICP = styled.div`
+	color: #515151;
 	a {
 		color: #66ccff;
 		margin: 0 4px 0 4px;
@@ -133,13 +123,11 @@ const Container = styled.div`
 		right: unset;
 		margin-right: unset;
 	}
-	position: absolute;
+
 	font-size: 54px;
 	color: #515151;
 	display: block;
-	top: 29%;
-	right: 45px;
-	margin-right: 25px;
+	margin: -8% 2% 0 0;
 	text-align: center;
 	p {
 		text-align: center;
@@ -153,8 +141,8 @@ const Footer = styled.div`
 	align-items: center;
 	justify-content: center;
 	display: flex;
-	bottom: 0;
-	right: 6px;
+	bottom: 5px;
+	right: 5px;
 	a {
 		color: #ff819d;
 	}
